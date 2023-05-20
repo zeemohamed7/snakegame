@@ -28,8 +28,12 @@ h1 {
     background: purple;
   }
 
+.apple {
+	background: red;
+
+} 
 .head {
-    background-color: blueviolet;
+    background-color: green;
 }
 
 
