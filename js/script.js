@@ -3,7 +3,7 @@ const playButton = $('#play-btn')
 const resetButton = $('#reset-btn')
 let currentSnake = [0,1,2] // divs in the grid that is the snake (0 is tail, 2 is head)
 let currentIndex = 0
-let currentAppleIndex = 10
+let currentAppleIndex = 0
 let xDirection = 1 // move one div to right or left
 let yDirection = 10  // move 10 divs right or left (10x10 grid)
 let intervalTime = 0
@@ -26,7 +26,7 @@ resetButton.click(function(){
 function resetGame(squares){
     let currentSnake = [0,1,2] 
     let currentIndex = 0
-    let currentAppleIndex = 10
+    let currentAppleIndex = 0
     let xDirection = 1 
     let yDirection = 10  
     let intervalTime = 0
@@ -120,12 +120,16 @@ function outcomes (){
 
 function randomAppleGenerator() {
     let squares = $(".grid-items")
+
+    /// do while executes code block first THEN checks condition
+    do {
     currentAppleIndex = Math.round(Math.random()*100)
-    while (squares.eq(currentAppleIndex).hasClass('snake') === false){
+    console.log(currentAppleIndex)
+  
+}
+    while (squares.eq(currentAppleIndex).hasClass('snake') === true)
     squares.eq(currentAppleIndex).addClass('apple')
-
-
-}}
+}
 
 
 
