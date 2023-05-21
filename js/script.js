@@ -10,7 +10,7 @@ let intervalTime = 0
 let interval = 0
 let scoreboard = $(".scoreboard") 
 let score = 0 
-
+let snakeHead = currentSnake.length - 1
 
 
 playButton.click(function(){
@@ -56,16 +56,16 @@ function createGrid() {
 
 // function to start game
 function playGame() {
- 
+    console.log(currentSnake)
     let squares = $(".grid-items")
        // add snake to first three divs of grid
     for (i = 0; i < currentSnake.length; i++) {
     squares.eq(currentSnake[i]).addClass('snake')   
 }
     randomAppleGenerator() 
+
     xDirection = 1 
     intervalTime=1000 
-    currentSnake =[0,1,2] 
     currentIndex = 0 
     interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
     
@@ -78,22 +78,23 @@ function moveSnake() {
     let squares = $(".grid-items")
     let tail = currentSnake.shift() // should remove first div as 'tail'
     squares.eq(tail).removeClass('snake') // div that contains tail, remove blue
-    currentSnake.push(currentSnake[2] + xDirection) // add class to new div that snake is moving to
+    
+    currentSnake.push(currentSnake[currentSnake.length - 1]+xDirection)     // adds new position to array 
+    squares.eq(currentSnake[snakeHead]).addClass('snake') // add snake class to new div
 
 }
 
 function outcomes (){ 
     let squares = $(".grid-items")
-    let tail = currentSnake.shift()
     // function to check if snake hit wall or itself
 
     function hit() {
         // if head..
         if(
-            (currentSnake[2] + yDirection > 99) || // hit bottom (there are 99 boxes in grid)
-            (currentSnake[2] - yDirection < 0 ) || // hit top
-            (currentSnake[2] % yDirection === 9 && xDirection === 1) || //  heading towards right wall and still heading right
-            (currentSnake[2] % yDirection === 0 && xDirection === -1) //  heading towards left wall and still heading left
+            (currentSnake[snakeHead] + yDirection > 99) || // hit bottom (there are 99 boxes in grid)
+            (currentSnake[snakeHead] - yDirection < 0 ) || // hit top
+            (currentSnake[snakeHead] % yDirection === 9 && xDirection === 1) || //  heading towards right wall and still heading right
+            (currentSnake[snakeHead] % yDirection === 0 && xDirection === -1) //  heading towards left wall and still heading left
 
     
 
@@ -104,15 +105,17 @@ function outcomes (){
         {alert("You hit yourself!")}
     }
     // function to check if it ate apple, if yes then grow
-
-    if (currentSnake[2] === currentAppleIndex) {
+    // if square containing snake's head is the same as square containing apple
+    
+    if (squares.eq(currentSnake[snakeHead]) === squares.eq(currentAppleIndex)) {
+        console.log(squares[currentSnake])
         score = score + 1
-        squares.eq(tail).classList.add("snake") 
-        currentSnake.unshift(tail)
-        randomApple(squares) 
+        squares.eq(tail).addClass("snake") 
+        currentSnake.unshift(tail)  // grow tail
+        randomAppleGenerator(squares) 
         interval = setInterval(outcomes,intervalTime)
 
-    }
+    } else {moveSnake()}
 
     } 
 
