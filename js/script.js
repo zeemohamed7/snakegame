@@ -1,25 +1,21 @@
 
 const playButton = $('#play-btn') 
 const resetButton = $('#reset-btn')
-let currentSnake = [10,11,12] // divs in the grid that is the snake (0 is tail, 2 is head)
+let currentSnake = [0,1,2] // divs in the grid that is the snake (0 is tail, 2 is head)
 let currentIndex = 0
-let currentApple = 0
+let currentAppleIndex = 10
 let xDirection = 1 // move one div to right or left
 let yDirection = 10  // move 10 divs right or left (10x10 grid)
 let intervalTime = 0
 let interval = 0
 let scoreboard = $(".scoreboard") 
 let score = 0 
-let speed = 0.8 
 
 
 
 playButton.click(function(){
     createGrid()
     playGame()
-
-
-    
 })
 
 resetButton.click(function(){
@@ -30,19 +26,18 @@ resetButton.click(function(){
 function resetGame(squares){
     let currentSnake = [0,1,2] 
     let currentIndex = 0
-    let currentApple = 0
+    let currentAppleIndex = 10
     let xDirection = 1 
     let yDirection = 10  
     let intervalTime = 0
     let interval = 0
     let score = 0
-    squares.eq(currentIndex).removeClass('snake') // remove snake's head
-    squareseq(currentApple).removeClass('apple') // remove apple
+    squares.eq(currentAppleIndex).removeClass('apple') // remove apple
 
     // reseting snake
     for (i = 0; i < currentSnake.length; i++) {
 
-        squares.eq(i).removeClass('snake')
+        squares.eq(currentSnake[i]).removeClass('snake')
     }
 
 }
@@ -56,66 +51,82 @@ function createGrid() {
     for (let columns = 0; columns < 10; columns++) {
             $("#grid-container").append("<div class='grid-items'></div>")   
     }} 
-
 }
 
 
 // function to start game
 function playGame() {
-    // add snake to first three divs of grid
+ 
     let squares = $(".grid-items")
+       // add snake to first three divs of grid
     for (i = 0; i < currentSnake.length; i++) {
-    squares.eq(i).addClass('snake')   
+    squares.eq(currentSnake[i]).addClass('snake')   
 }
-
-    // randomApple(squares) 
-    direction =1 
+    randomAppleGenerator() 
+    xDirection = 1 
     intervalTime=1000 
     currentSnake =[0,1,2] 
     currentIndex = 0 
-    interval = setInterval(moveOutcomes,intervalTime) // repeat
-    } 
+    interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
+    
 
-
+}
 
  // function to move snake
      // to give illusion of snake moving, remove first div's class and add class to last div 
 function moveSnake() {
     let squares = $(".grid-items")
-    let tail = currentSnake.shift()
-    console.log(tail)  // should remove first div as 'tail'
+    let tail = currentSnake.shift() // should remove first div as 'tail'
     squares.eq(tail).removeClass('snake') // div that contains tail, remove blue
-    currentSnake.push(currentSnake.eq(2) + xDirection) // add class to new div that snake is moving to
+    currentSnake.push(currentSnake[2] + xDirection) // add class to new div that snake is moving to
 
 }
 
-function moveOutcomes (){ 
+function outcomes (){ 
     let squares = $(".grid-items")
+    let tail = currentSnake.shift()
     // function to check if snake hit wall or itself
-    
+
     function hit() {
         // if head..
         if(
             (currentSnake[2] + yDirection > 99) || // hit bottom (there are 99 boxes in grid)
             (currentSnake[2] - yDirection < 0 ) || // hit top
-            (currentSnake[2] % yDirection === 9) || // hit right wall
-            (currentSnake[2] % yDirection === 0) // hit left wall
+            (currentSnake[2] % yDirection === 9 && xDirection === 1) || //  heading towards right wall and still heading right
+            (currentSnake[2] % yDirection === 0 && xDirection === -1) //  heading towards left wall and still heading left
 
     
 
 
         ) {alert("You hit a wall!")}
         // if next square contains snake
-        else if (){}
+        else if (squares.eq(currentSnake[2] + xDirection).hasClass('snake')  === true )
+        {alert("You hit yourself!")}
     }
     // function to check if it ate apple, if yes then grow
+
+    if (currentSnake[2] === currentAppleIndex) {
+        score = score + 1
+        squares.eq(tail).classList.add("snake") 
+        currentSnake.unshift(tail)
+        randomApple(squares) 
+        interval = setInterval(outcomes,intervalTime)
+
+    }
 
     } 
 
 
-function apple() {
 
-}
+function randomAppleGenerator() {
+    let squares = $(".grid-items")
+    currentAppleIndex = Math.round(Math.random()*100)
+    while (squares.eq(currentAppleIndex).hasClass('snake') === false){
+    squares.eq(currentAppleIndex).addClass('apple')
+
+
+}}
+
 
 
 
