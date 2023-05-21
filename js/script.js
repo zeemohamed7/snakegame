@@ -4,8 +4,8 @@ const resetButton = $('#reset-btn')
 let currentSnake = [0,1,2] // divs in the grid that is the snake (0 is tail, 2 is head)
 let currentIndex = 0
 let currentAppleIndex = 0
-let xDirection = 1 // move one div to right or left
-let yDirection = 10  // move 10 divs right or left (10x10 grid)
+let direction = 1 // move one div to right or left
+let rowJump = 10  // move 10 divs right or left (10x10 grid)
 let intervalTime = 0
 let interval = 0
 let scoreboard = $(".scoreboard") 
@@ -27,8 +27,8 @@ function resetGame(squares){
     let currentSnake = [0,1,2] 
     let currentIndex = 0
     let currentAppleIndex = 0
-    let xDirection = 1 
-    let yDirection = 10  
+    let direction = 1 
+    let rowJump = 10  
     let intervalTime = 0
     let interval = 0
     let score = 0
@@ -64,7 +64,7 @@ function playGame() {
 }
     randomAppleGenerator() 
 
-    xDirection = 1 
+    direction = 1 
     intervalTime=1000 
     currentIndex = 0 
     interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
@@ -79,7 +79,7 @@ function moveSnake() {
     let tail = currentSnake.shift() // should remove first div as 'tail'
     squares.eq(tail).removeClass('snake') // div that contains tail, remove blue
     
-    currentSnake.push(currentSnake[currentSnake.length - 1]+xDirection)     // adds new position to array 
+    currentSnake.push(currentSnake[currentSnake.length - 1]+direction)     // adds new position to array 
     squares.eq(currentSnake[snakeHead]).addClass('snake') // add snake class to new div
 
 }
@@ -91,17 +91,17 @@ function outcomes (){
     function hit() {
         // if head..
         if(
-            (currentSnake[snakeHead] + yDirection > 99) || // hit bottom (there are 99 boxes in grid)
-            (currentSnake[snakeHead] - yDirection < 0 ) || // hit top
-            (currentSnake[snakeHead] % yDirection === 9 && xDirection === 1) || //  heading towards right wall and still heading right
-            (currentSnake[snakeHead] % yDirection === 0 && xDirection === -1) //  heading towards left wall and still heading left
+            (currentSnake[snakeHead] + rowJump > 99) || // hit bottom (there are 99 boxes in grid)
+            (currentSnake[snakeHead] - rowJump < 0 ) || // hit top
+            (currentSnake[snakeHead] % rowJump === 9 && direction === 1) || //  heading towards right wall and still heading right
+            (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
 
     
 
 
         ) {alert("You hit a wall!")}
         // if next square contains snake
-        else if (squares.eq(currentSnake[2] + xDirection).hasClass('snake')  === true )
+        else if (squares.eq(currentSnake[2] + direction).hasClass('snake')  === true )
         {alert("You hit yourself!")}
     }
     // function to check if it ate apple, if yes then grow
@@ -145,16 +145,16 @@ document.addEventListener('keydown', function (event) {
     let squares = $(".grid-items")
     squares.eq(currentIndex).removeClass('snake')
         if (event.code === 'ArrowLeft') {
-            xDirection = -1  // move one div back to go left
+            direction = -1  // move one div back to go left
         }
         else if (event.code === 'ArrowRight') {
-            xDirection = 1 // move one div front to go right
+            direction = 1 // move one div front to go right
         }
         else if (event.code === 'ArrowUp') {
-            yDirection = -10  // move 10 divs backwards to go up
+            direction = -10  // move 10 divs backwards to go up
         }
         else if (event.code === 'ArrowDown') {
-            yDirection = 10 // move 10 divs forwards to go down
+            direction = 10 // move 10 divs forwards to go down
 
     }})
 
