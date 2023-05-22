@@ -70,12 +70,12 @@ function playGame() {
     randomAppleGenerator() 
 
     direction = 1 
-    intervalTime=1000 
+    intervalTime= 500
     currentIndex = 0 
     interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
     
 
-}
+
 
  // function to move snake
      // to give illusion of snake moving, remove first div's class and add class to last div 
@@ -148,6 +148,7 @@ function outcomes (){
     for (i = 0; i < currentSnake.length; i++) {
         squares.eq(currentSnake[i]).addClass('snake')   
     }
+    snakeHead = currentSnake.length - 1
     // function to check if snake hit wall or itself
 
     
@@ -196,15 +197,16 @@ function outcomes (){
         squares.eq(currentAppleIndex).removeClass('apple')
         score = score + 1
         
-        console.log("currentSnake", currentSnake)
-        // randomAppleGenerator() 
-        currentSnake.unshift(currentSnake[0] - direction)  // grow tail (add to beginning of array)
-        console.log("updated", currentSnake)
+       
+        randomAppleGenerator() 
+        // if (direction / 10 === 1) {
+        currentSnake.unshift(currentSnake[0] - 1)  // grow tail (add to beginning of array)
 
-        tail = currentSnake[0] // define tail as beginning of array
+        
+       // define tail as beginning of array
 
-        squares.eq(tail).addClass("tail")   // add colour to tail div
-   
+           // add colour to tail div
+        // }
 
     } else {moveSnake()}
 
@@ -225,7 +227,7 @@ function randomAppleGenerator() {
 
 
 
-
+}
 
 
 

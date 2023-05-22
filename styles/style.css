@@ -8,8 +8,8 @@ h1 {
 	outline:2px solid #000;
 	font-size: 0;
 	margin:auto;
-	height:960px;
-	width:960px;
+	height:400px;
+	width:400px;
 	padding: 20px;
 	border: none;
 }
@@ -20,8 +20,8 @@ h1 {
 	border:none;
 	outline:1px solid #000;
 	display:inline-block;
-    width: 96px;
-    height: 96px;
+    width: 40px;
+    height: 40px;
 }
 
 .snake {
@@ -32,7 +32,7 @@ h1 {
 	background: red;
 
 } 
-.head {
+.tail {
     background-color: green;
 }
 
