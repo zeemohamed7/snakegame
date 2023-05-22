@@ -9,11 +9,16 @@ let rowJump = 10  // move 10 divs right or left (10x10 grid)
 let intervalTime = 0
 let interval = 0
 let scoreboard = $(".scoreboard") 
-let score = 0 
+let scoreTag = $("#score")
+let highscoreTag = $("#highscore")
+score = 0 
 let snakeHead = currentSnake.length - 1
+highscore = score
+
 
 
 playButton.click(function(){
+    resetGame()
     createGrid()
     playGame()
 })
@@ -23,22 +28,29 @@ resetButton.click(function(){
 })
 
 // reset playboard
-function resetGame(squares){
-    let currentSnake = [0,1,2] 
-    let currentIndex = 0
-    let currentAppleIndex = 0
-    let direction = 1 
-    let rowJump = 10  
-    let intervalTime = 0
-    let interval = 0
-    let score = 0
+function resetGame(){
+    console.log('board cleared!')
+    stopGame()
+    let squares = $(".grid-items")
+    // // reseting snake
+    // for (i = 0; i < squares.length; i++) {
+    //     if (squares.eq(i).hasClass('snake')) {
+    //         squares.eq(i).removeClass('snake')
+    //     }
+    // }
+    $('#grid-container').empty()
+
+
+    currentIndex = 0
+    
+    direction = 1 
+     rowJump = 10  
+     intervalTime = 0
+     interval = 0
+     score = 0
     squares.eq(currentAppleIndex).removeClass('apple') // remove apple
 
-    // reseting snake
-    for (i = 0; i < currentSnake.length; i++) {
-
-        squares.eq(currentSnake[i]).removeClass('snake')
-    }
+    
 
 }
 
@@ -54,14 +66,13 @@ function createGrid() {
 }
 function stopGame() {
     clearInterval(interval)
-        for (i = 0; i < currentSnake.length; i++) {
-    squares.eq(currentSnake[i]).removeClass('snake')   
-}   
+    
 }
 
 // function to start game
 function playGame() {
-    console.log(currentSnake)
+    scoreTag.text("Score is: " + score)  
+    let currentSnake = [0,1,2]
     let squares = $(".grid-items")
        // add snake to first three divs of grid
     for (i = 0; i < currentSnake.length; i++) {
@@ -70,7 +81,7 @@ function playGame() {
     randomAppleGenerator() 
 
     direction = 1 
-    intervalTime= 500
+    intervalTime= 800
     currentIndex = 0 
     interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
     
@@ -92,7 +103,7 @@ function playGame() {
 // }
 
 function moveSnake() {
-    console.log(currentSnake)
+    
     snakeHead = currentSnake.length - 1
 
     let squares = $(".grid-items")
@@ -181,9 +192,7 @@ function outcomes (){
         // if next square contains snake
         else if (squares.eq(currentSnake[snakeHead] + direction ).hasClass('snake')  === true )
         
-        {  console.log(currentSnake)
-            console.log(currentSnake[snakeHead])
-            console.log(currentSnake[snakeHead] + 1)
+        {  
             
         alert("You hit yourself!")
             
@@ -196,6 +205,16 @@ function outcomes (){
     else if (squares.eq(currentSnake[snakeHead]).hasClass('apple')) {
         squares.eq(currentAppleIndex).removeClass('apple')
         score = score + 1
+        scoreTag.text("Score is: " + score) 
+        if (score > highscore) {
+            highscore = score
+            highscoreTag.text("Highscore is: " + highscore)
+        } 
+        
+        clearInterval(interval)
+        intervalTime = intervalTime * 0.9
+        interval = setInterval(outcomes,intervalTime)
+
         
        
         randomAppleGenerator() 
@@ -217,8 +236,9 @@ function randomAppleGenerator() {
 
     /// do while executes code block first THEN checks condition
     do {
-    currentAppleIndex = Math.round(Math.random()*100)
-    console.log(currentAppleIndex)
+    currentAppleIndex = Math.floor(Math.random()*100)   //math.floor because it rounds down and value will never be a 100
+
+ 
   
 }
     while (squares.eq(currentAppleIndex).hasClass('snake') === true)

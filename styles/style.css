@@ -1,16 +1,27 @@
-h1 {
-    text-align: center;
+body {
+	background-color: #b8f3ff64;
+	font-family: 'Press Start 2P', cursive;
+
 
 }
+
+h1 {
+    text-align: center;
+	font-size:40px;
+	color: #63768D;
+	
+
+}
+
+
 #grid-container {
 	position: relative;
-	top: 30px;
-	outline:2px solid #000;
+	outline:2px solid #63768D;
 	font-size: 0;
 	margin:auto;
 	height:400px;
 	width:400px;
-	padding: 20px;
+	background-color: #8AC6D0;
 	border: none;
 }
 
@@ -18,22 +29,50 @@ h1 {
 	margin:0;
 	padding:0;
 	border:none;
-	outline:1px solid #000;
+	
 	display:inline-block;
     width: 40px;
     height: 40px;
+	
 }
 
-.snake {
-    background: purple;
-  }
+
 
 .apple {
 	background: red;
+	
 
 } 
-.tail {
-    background-color: green;
+
+.snake {
+    background: #554971;
+  }
+
+.scoreboard{
+	font-display: block;
+	font-size: 15px;
+	height:200px;
+	width:200px;
+	position: relative;
+	float: left;
+	
 }
 
+#buttons {
+	display: flex;
+	justify-content: center;
+	
+}
+button {
+	font-family: 'Press Start 2P', cursive;
+	background-color: #63768D;
+	font-size: 15px;
+	color: white;
+	padding: 5px 20px;
+	margin: 20px;
+	
+	border-radius: 5px;
+	
+
+}
 
