@@ -52,7 +52,12 @@ function createGrid() {
             $("#grid-container").append("<div class='grid-items'></div>")   
     }} 
 }
-
+function stopGame() {
+    clearInterval(interval)
+        for (i = 0; i < currentSnake.length; i++) {
+    squares.eq(currentSnake[i]).removeClass('snake')   
+}   
+}
 
 // function to start game
 function playGame() {
