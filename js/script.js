@@ -29,34 +29,26 @@ resetButton.click(function(){
 
 // reset playboard
 function resetGame(){
-    console.log('board cleared!')
-    stopGame()
     let squares = $(".grid-items")
-    // // reseting snake
-    // for (i = 0; i < squares.length; i++) {
-    //     if (squares.eq(i).hasClass('snake')) {
-    //         squares.eq(i).removeClass('snake')
-    //     }
-    // }
-    $('#grid-container').empty()
-
-
+    stopGame()
+    $('#grid-container').empty()  //remove grid 
     currentIndex = 0
-    
     direction = 1 
      rowJump = 10  
      intervalTime = 0
      interval = 0
      score = 0
     squares.eq(currentAppleIndex).removeClass('apple') // remove apple
+}
 
+function stopGame() {
+    clearInterval(interval)
     
-
 }
 
 
 
-// function that automatically loads grid and snake 
+// function that loads grid and snake 
 function createGrid() {
 // create grid
     for (let rows = 0; rows < 10; rows++){
@@ -64,10 +56,7 @@ function createGrid() {
             $("#grid-container").append("<div class='grid-items'></div>")   
     }} 
 }
-function stopGame() {
-    clearInterval(interval)
-    
-}
+
 
 // function to start game
 function playGame() {
@@ -79,28 +68,12 @@ function playGame() {
     squares.eq(currentSnake[i]).addClass('snake')   
 }
     randomAppleGenerator() 
-
     direction = 1 
     intervalTime= 800
     currentIndex = 0 
     interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
     
 
-
-
- // function to move snake
-     // to give illusion of snake moving, remove first div's class and add class to last div 
-
-
-// function moveSnake() {
-//     let squares = $(".grid-items")
-//     let tail = currentSnake.shift() // should remove first div as 'tail'
-//     squares.eq(tail).removeClass('snake') // div that contains tail, remove blue
-    
-//     currentSnake.push(currentSnake[currentSnake.length - 1]+direction)     // adds new position to array 
-//     squares.eq(currentSnake[snakeHead]).addClass('snake') // add snake class to new div
-
-// }
 
 function moveSnake() {
     
@@ -117,40 +90,6 @@ function moveSnake() {
     }
 }
 
-// function outcomes (){ 
-//     let squares = $(".grid-items")
-//     // function to check if snake hit wall or itself
-
-//     function hit() {
-//         // if head..
-//         if(
-//             (currentSnake[snakeHead] + rowJump > 99) || // hit bottom (there are 99 boxes in grid)
-//             (currentSnake[snakeHead] - rowJump < 0 ) || // hit top
-//             (currentSnake[snakeHead] % rowJump === 9 && direction === 1) || //  heading towards right wall and still heading right
-//             (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
-
-    
-
-
-//         ) {alert("You hit a wall!")}
-//         // if next square contains snake
-//         else if (squares.eq(currentSnake[2] + direction).hasClass('snake')  === true )
-//         {alert("You hit yourself!")}
-//     }
-//     // function to check if it ate apple, if yes then grow
-//     // if square containing snake's head is the same as square containing apple
-    
-//     if (squares.eq(currentSnake[snakeHead]) === squares.eq(currentAppleIndex)) {
-//         console.log(squares[currentSnake])
-//         score = score + 1
-//         squares.eq(tail).addClass("snake") 
-//         currentSnake.unshift(tail)  // grow tail
-//         randomAppleGenerator(squares) 
-//         interval = setInterval(outcomes,intervalTime)
-
-//     } else {moveSnake()}
-
-//     } 
 
 function outcomes (){ 
    
@@ -160,22 +99,6 @@ function outcomes (){
         squares.eq(currentSnake[i]).addClass('snake')   
     }
     snakeHead = currentSnake.length - 1
-    // function to check if snake hit wall or itself
-
-    
-        // if head..
-      
-        // if(
-            
-        //     (currentSnake[snakeHead] + rowJump > 99 && direction === 10) || // hit bottom (there are 99 boxes in grid)
-        //     (currentSnake[snakeHead] - rowJump < 0 && direction === -10) || // hit top
-        //     (currentSnake[snakeHead] % rowJump === 9 && direction === 1) || //  heading towards right wall and still heading right
-        //     (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
-
-        // ) {
-        //     alert("You hit a wall!")
-        //     stopGame()
-        // }
 
         if(
 
@@ -214,18 +137,10 @@ function outcomes (){
         clearInterval(interval)
         intervalTime = intervalTime * 0.9
         interval = setInterval(outcomes,intervalTime)
-
-        
-       
         randomAppleGenerator() 
-        // if (direction / 10 === 1) {
         currentSnake.unshift(currentSnake[0] - 1)  // grow tail (add to beginning of array)
 
         
-       // define tail as beginning of array
-
-           // add colour to tail div
-        // }
 
     } else {moveSnake()}
 
@@ -272,78 +187,3 @@ document.addEventListener('keydown', function (event) {
 
 
 
-
-
-// Keydown eventlisteners 
-
-// document.addEventListener('keydown', function (event) {
-
-// let currentKey = event.code
-// let currentDirection = 
-// setInterval(move, 1)
-
-
-
-  
-
-
-//     function move() {
-//     let currentDirection = null
-//     if (event.code === 'ArrowUp') {
-       
-//        // continue moving upwards when key is pressed down
-//         square.animate({ top: "-=50"})
-//         let currentDirection = "up"
-//         changeDirection()
-        
-    
-//     }
-//     if (event.code === 'ArrowDown') {
-//         square.animate({ top: "+=50"})
-//         let currentDirection = "down"
-//         changeDirection()
-//     }
-//     if (event.code === 'ArrowRight') {
-        
-//         square.animate({ left: "+=50"})
-//         let currentDirection = "right"
-//         changeDirection()
-//     }
-//     if (event.code === 'ArrowLeft') {
-//         square.animate({ right: "-=50"})
-//         let currentDirection = "left"
-//         changeDirection()
-//     }
-
-//     function changeDirection() {
-        
-
-        
-//     }
-// } 
-//  })
-
-
-
-
-
-
-// document.addEventListener('keyup',function(event) {
-//     snake.queue("fx", [])
-//     snake.stop(); 
-// })
-
-
-
-
-
-// switch(expression) {
-//     case x:
-//       // code block
-//       break;
-//     case y:
-//       // code block
-//       break;
-//     default:
-//       // code block
-//   }
