@@ -74,52 +74,136 @@ function playGame() {
 
  // function to move snake
      // to give illusion of snake moving, remove first div's class and add class to last div 
+
+
+// function moveSnake() {
+//     let squares = $(".grid-items")
+//     let tail = currentSnake.shift() // should remove first div as 'tail'
+//     squares.eq(tail).removeClass('snake') // div that contains tail, remove blue
+    
+//     currentSnake.push(currentSnake[currentSnake.length - 1]+direction)     // adds new position to array 
+//     squares.eq(currentSnake[snakeHead]).addClass('snake') // add snake class to new div
+
+// }
+
 function moveSnake() {
+    console.log(currentSnake)
+    snakeHead = currentSnake.length - 1
+
     let squares = $(".grid-items")
     let tail = currentSnake.shift() // should remove first div as 'tail'
     squares.eq(tail).removeClass('snake') // div that contains tail, remove blue
-    
-    currentSnake.push(currentSnake[currentSnake.length - 1]+direction)     // adds new position to array 
+    currentSnake.push(currentSnake[currentSnake.length - 1] + direction)     // adds new position to end of array 
     squares.eq(currentSnake[snakeHead]).addClass('snake') // add snake class to new div
 
+    for (i = 0; i < currentSnake.length; i++) {
+        squares.eq(currentSnake[i]).addClass('snake')   
+    }
 }
 
+// function outcomes (){ 
+//     let squares = $(".grid-items")
+//     // function to check if snake hit wall or itself
+
+//     function hit() {
+//         // if head..
+//         if(
+//             (currentSnake[snakeHead] + rowJump > 99) || // hit bottom (there are 99 boxes in grid)
+//             (currentSnake[snakeHead] - rowJump < 0 ) || // hit top
+//             (currentSnake[snakeHead] % rowJump === 9 && direction === 1) || //  heading towards right wall and still heading right
+//             (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
+
+    
+
+
+//         ) {alert("You hit a wall!")}
+//         // if next square contains snake
+//         else if (squares.eq(currentSnake[2] + direction).hasClass('snake')  === true )
+//         {alert("You hit yourself!")}
+//     }
+//     // function to check if it ate apple, if yes then grow
+//     // if square containing snake's head is the same as square containing apple
+    
+//     if (squares.eq(currentSnake[snakeHead]) === squares.eq(currentAppleIndex)) {
+//         console.log(squares[currentSnake])
+//         score = score + 1
+//         squares.eq(tail).addClass("snake") 
+//         currentSnake.unshift(tail)  // grow tail
+//         randomAppleGenerator(squares) 
+//         interval = setInterval(outcomes,intervalTime)
+
+//     } else {moveSnake()}
+
+//     } 
+
 function outcomes (){ 
+   
     let squares = $(".grid-items")
+
+    for (i = 0; i < currentSnake.length; i++) {
+        squares.eq(currentSnake[i]).addClass('snake')   
+    }
     // function to check if snake hit wall or itself
 
-    function hit() {
+    
         // if head..
+      
+        // if(
+            
+        //     (currentSnake[snakeHead] + rowJump > 99 && direction === 10) || // hit bottom (there are 99 boxes in grid)
+        //     (currentSnake[snakeHead] - rowJump < 0 && direction === -10) || // hit top
+        //     (currentSnake[snakeHead] % rowJump === 9 && direction === 1) || //  heading towards right wall and still heading right
+        //     (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
+
+        // ) {
+        //     alert("You hit a wall!")
+        //     stopGame()
+        // }
+
         if(
-            (currentSnake[snakeHead] + rowJump > 99) || // hit bottom (there are 99 boxes in grid)
-            (currentSnake[snakeHead] - rowJump < 0 ) || // hit top
+
+            (currentSnake[snakeHead] + rowJump > 99 && direction === 10) || // hit bottom (there are 99 boxes in grid)
+            (currentSnake[snakeHead] - rowJump < 0 && direction === -10) || // hit top
             (currentSnake[snakeHead] % rowJump === 9 && direction === 1) || //  heading towards right wall and still heading right
             (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
 
-    
+        ) {
+            alert("You hit a wall!")
+            stopGame()
+        }
 
-
-        ) {alert("You hit a wall!")}
         // if next square contains snake
-        else if (squares.eq(currentSnake[2] + direction).hasClass('snake')  === true )
-        {alert("You hit yourself!")}
+        else if (squares.eq(currentSnake[snakeHead] + direction ).hasClass('snake')  === true )
+        
+        {  console.log(currentSnake)
+            console.log(currentSnake[snakeHead])
+            console.log(currentSnake[snakeHead] + 1)
+            
+        alert("You hit yourself!")
+            
+        stopGame()
     }
-    // function to check if it ate apple, if yes then grow
+    
+    // check if it ate apple, if yes then grow
     // if square containing snake's head is the same as square containing apple
     
-    if (squares.eq(currentSnake[snakeHead]) === squares.eq(currentAppleIndex)) {
-        console.log(squares[currentSnake])
+    else if (squares.eq(currentSnake[snakeHead]).hasClass('apple')) {
+        squares.eq(currentAppleIndex).removeClass('apple')
         score = score + 1
-        squares.eq(tail).addClass("snake") 
-        currentSnake.unshift(tail)  // grow tail
-        randomAppleGenerator(squares) 
-        interval = setInterval(outcomes,intervalTime)
+        
+        console.log("currentSnake", currentSnake)
+        // randomAppleGenerator() 
+        currentSnake.unshift(currentSnake[0] - direction)  // grow tail (add to beginning of array)
+        console.log("updated", currentSnake)
+
+        tail = currentSnake[0] // define tail as beginning of array
+
+        squares.eq(tail).addClass("tail")   // add colour to tail div
+   
 
     } else {moveSnake()}
 
     } 
-
-
 
 function randomAppleGenerator() {
     let squares = $(".grid-items")
