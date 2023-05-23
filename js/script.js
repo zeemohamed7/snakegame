@@ -2,7 +2,6 @@
 const playButton = $('#play-btn') 
 const resetButton = $('#reset-btn')
 let currentSnake = [0,1,2] // divs in the grid that is the snake (0 is tail, 2 is head)
-let currentIndex = 0
 let currentAppleIndex = 0
 let direction = 1 // move one div to right or left
 let rowJump = 10  // move 10 divs right or left (10x10 grid)
@@ -14,6 +13,7 @@ let highscoreTag = $("#highscore")
 score = 0 
 let snakeHead = currentSnake.length - 1
 highscore = score
+
 
 
 
@@ -32,7 +32,6 @@ function resetGame(){
     let squares = $(".grid-items")
     stopGame()
     $('#grid-container').empty()  //remove grid 
-    currentIndex = 0
     direction = 1 
      rowJump = 10  
      intervalTime = 0
@@ -42,13 +41,13 @@ function resetGame(){
 }
 
 function stopGame() {
-    clearInterval(interval)
+    clearInterval(interval) // stop snake moving
     
 }
 
 
 
-// function that loads grid and snake 
+// function that loads grid
 function createGrid() {
 // create grid
     for (let rows = 0; rows < 10; rows++){
@@ -63,15 +62,17 @@ function playGame() {
     scoreTag.text("Score is: " + score)  
     let currentSnake = [0,1,2]
     let squares = $(".grid-items")
-       // add snake to first three divs of grid
+    // add snake to first three divs of grid
     for (i = 0; i < currentSnake.length; i++) {
     squares.eq(currentSnake[i]).addClass('snake')   
 }
+    munchSound = new sound("audio/munch.mp3") 
+    deathSound = new sound("audio/robloxdeath-sound.mp3")  
     randomAppleGenerator() 
     direction = 1 
-    intervalTime= 800
-    currentIndex = 0 
+    intervalTime= 1000 
     interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
+    
     
 
 
@@ -107,16 +108,16 @@ function outcomes (){
             (currentSnake[snakeHead] % rowJump === 9 && direction === 1) || //  heading towards right wall and still heading right
             (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
 
-        ) {
+        ) {    deathSound.play()
             alert("You hit a wall!")
             stopGame()
         }
 
-        // if next square contains snake
-        else if (squares.eq(currentSnake[snakeHead] + direction ).hasClass('snake')  === true )
+        // if snake hits itself
+        else if (squares.eq(currentSnake[snakeHead] + direction ).hasClass('snake')  === true ) // if next square contains class snake
         
         {  
-            
+            deathSound.play()
         alert("You hit yourself!")
             
         stopGame()
@@ -126,7 +127,9 @@ function outcomes (){
     // if square containing snake's head is the same as square containing apple
     
     else if (squares.eq(currentSnake[snakeHead]).hasClass('apple')) {
+        munchSound.play()
         squares.eq(currentAppleIndex).removeClass('apple')
+        
         score = score + 1
         scoreTag.text("Score is: " + score) 
         if (score > highscore) {
@@ -135,7 +138,7 @@ function outcomes (){
         } 
         
         clearInterval(interval)
-        intervalTime = intervalTime * 0.9
+        intervalTime = intervalTime * 0.9  // increase speed everytime apple is eaten 
         interval = setInterval(outcomes,intervalTime)
         randomAppleGenerator() 
         currentSnake.unshift(currentSnake[0] - 1)  // grow tail (add to beginning of array)
@@ -162,28 +165,60 @@ function randomAppleGenerator() {
 
 
 
-}
 
-
+// store key inputs 
+keyInputs = []
 
 // function to listen to key codes
 document.addEventListener('keydown', function (event) {
     let squares = $(".grid-items")
-    squares.eq(currentIndex).removeClass('snake')
+console.log(keyInputs)
+    // console.log(squares.eq(currentSnake.length-2))
         if (event.code === 'ArrowLeft') {
+            
+            if (keyInputs[keyInputs.length - 1] !== 'ArrowLeft' && direction !== 1){
+            
             direction = -1  // move one div back to go left
+            }
+            keyInputs.push(event.code)
         }
         else if (event.code === 'ArrowRight') {
+            if (keyInputs[keyInputs.length - 1] !== 'ArrowRight' && direction !== -1){
             direction = 1 // move one div front to go right
         }
+            keyInputs.push(event.code)
+        }
         else if (event.code === 'ArrowUp') {
+            if (keyInputs[keyInputs.length - 1] !== 'ArrowUp' && direction !== 10){
             direction = -10  // move 10 divs backwards to go up
+            }
+            keyInputs.push(event.code)
         }
         else if (event.code === 'ArrowDown') {
+            if (keyInputs[keyInputs.length - 1] !== 'ArrowDown' && direction !== -10){
+            
             direction = 10 // move 10 divs forwards to go down
+            }
+            keyInputs.push(event.code)
 
     }})
 
+// function from w3schools
+    function sound(src) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.play = function(){
+          this.sound.play();
+        }
+        this.stop = function(){
+          this.sound.pause();
+        }
+      }
+}
 
 
 
