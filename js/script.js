@@ -8,13 +8,17 @@ let rowJump = 10  // move 10 divs right or left (10x10 grid)
 let intervalTime = 0
 let interval = 0
 let scoreboard = $(".scoreboard") 
-let scoreTag = $("#score")
-let highscoreTag = $("#highscore")
+let scoreTag = $(".score")
+let highscoreTag = $(".highscore")
 score = 0 
 let snakeHead = currentSnake.length - 1
 highscore = score
 
+let popup = $('#popup')
 
+function playAgainPopup() {
+    popup.addClass('open-popup')
+}
 
 
 playButton.click(function(){
@@ -24,6 +28,7 @@ playButton.click(function(){
 })
 
 resetButton.click(function(){
+    popup.removeClass('open-popup')
     resetGame()
 })
 
@@ -59,18 +64,19 @@ function createGrid() {
 
 // function to start game
 function playGame() {
-    scoreTag.text("Score is: " + score)  
+    scoreTag.html("<p> Score: </p>" + "<p>" + score + "</p>")
+    highscoreTag.html("<p> Highscore: </p>" + "<p>" + highscore + "</p>") 
     let currentSnake = [0,1,2]
     let squares = $(".grid-items")
     // add snake to first three divs of grid
     for (i = 0; i < currentSnake.length; i++) {
     squares.eq(currentSnake[i]).addClass('snake')   
 }
-    munchSound = new sound("audio/munch.mp3") 
-    deathSound = new sound("audio/robloxdeath-sound.mp3")  
+    munchSound = new sound("audio/munch_01.mp3") 
+    deathSound = new sound("audio/death.mp3")  
     randomAppleGenerator() 
     direction = 1 
-    intervalTime= 1000 
+    intervalTime= 800
     interval = setInterval(outcomes,intervalTime) // call outcomes every 1 second (after every move)
     
     
@@ -109,8 +115,9 @@ function outcomes (){
             (currentSnake[snakeHead] % rowJump === 0 && direction === -1) //  heading towards left wall and still heading left
 
         ) {    deathSound.play()
-            alert("You hit a wall!")
+           
             stopGame()
+            playAgainPopup()
         }
 
         // if snake hits itself
@@ -118,9 +125,10 @@ function outcomes (){
         
         {  
             deathSound.play()
-        alert("You hit yourself!")
+        
             
         stopGame()
+        playAgainPopup()
     }
     
     // check if it ate apple, if yes then grow
@@ -131,10 +139,10 @@ function outcomes (){
         squares.eq(currentAppleIndex).removeClass('apple')
         
         score = score + 1
-        scoreTag.text("Score is: " + score) 
+        scoreTag.html("<p>Score: </p>" + "<p>" + score + "</p>") 
         if (score > highscore) {
             highscore = score
-            highscoreTag.text("Highscore is: " + highscore)
+            highscoreTag.html("<p>Highscore: </p>" + "<p>" + highscore + "</p>")
         } 
         
         clearInterval(interval)
@@ -219,6 +227,36 @@ console.log(keyInputs)
         }
       }
 }
+// MOBILE EVENT LISTENER
+// function to listen to key codes 
+let up = $("#up")
+let down =  $("#down")
+let right =  $("#right")
+let left = $("#left")
+
+clickInputs = []
+up.click(function() {
+    direction = -10
+
+})
+
+down.click(function() {
+    direction = 10
+
+})
+
+right.click(function() {
+    direction = 1
+
+})
+
+left.click(function() {
+    direction = -1
+
+})
+resetButton.click(function(){
+    resetGame()
+})
 
 
 

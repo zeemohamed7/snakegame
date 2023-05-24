@@ -1,28 +1,52 @@
 body {
-	background-color: #b8f3ff64;
+background-color: black;
 	font-family: 'Press Start 2P', cursive;
 
 
 }
 
-h1 {
+h1, h2 {
     text-align: center;
 	font-size:40px;
-	color: #63768D;
+	color: white;
 	
+
+}
+
+
+.popup{
+	width: 500px;
+	height: 500px;
+	border: white 2px solid;
+	background: black;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%,-50%) scale(0.1);
+	text-align: center;
+	visibility: hidden;
+	transition: transform 0.5s, top 0.5s;
+
+}
+
+.open-popup {
+
+	visibility: visible;
+	transform: translate(-50%,-50%) scale(1);
+	top: 50%;
 
 }
 
 
 #grid-container {
 	position: relative;
-	outline:2px solid #63768D;
 	font-size: 0;
-	margin:auto;
+
 	height:400px;
 	width:400px;
-	background-color: #8AC6D0;
+	background-color: black;
 	border: none;
+	border: white 7px solid;
 }
 
 .grid-items {
@@ -39,22 +63,29 @@ h1 {
 
 
 .apple {
+	
 	background: red;
+	box-shadow: 0 0 50px 10px rgb(255, 30, 30);
 
 
 } 
 
 .snake {
-    background: #554971;
+
+    background: rgb(34, 255, 0);
+	box-shadow: 0 0 50px 10px rgba(58, 250, 28, 0.597);
+
   }
 
 .scoreboard{
 	font-display: block;
 	font-size: 15px;
-	height:200px;
-	width:200px;
+	/* height:200px; */
 	position: relative;
-	float: left;
+	justify-content: start;
+	margin: 20px;
+	padding: 20px;
+	padding-right: 275px;
 	
 }
 
@@ -65,9 +96,9 @@ h1 {
 }
 button {
 	font-family: 'Press Start 2P', cursive;
-	background-color: #63768D;
+	background-color: white;
 	font-size: 15px;
-	color: white;
+	color: black;
 	padding: 5px 20px;
 	margin: 20px;
 	
@@ -76,3 +107,91 @@ button {
 
 }
 
+.score {
+	display: flex;
+	flex-direction: row;
+}
+.highscore {
+	display: flex;
+	flex-direction: row;
+}
+
+.movekeys {
+	display: none;
+}
+
+p {
+	color: white;
+}
+
+#row1 {
+	display: flex;
+	justify-content: flex-end;
+	flex-direction: row-reverse;
+}
+
+.game-over {
+	margin-top: 200px;
+}
+.col-mobile {
+	display: none;
+}
+@media only screen and (max-width: 600px) {
+	#grid-container {
+		position: relative;
+	
+		font-size: 0;
+		margin:auto;
+		height:300px;
+		width:300px;
+	}
+
+	.grid-items {
+		margin: 0;
+		padding:0;
+		display:inline-block;
+		width: 30px;
+		height: 30px;
+		
+	}
+	.movekeys {
+		display: flex;
+		flex-direction: column;
+
+	}
+
+	#keys1, #keys2 {
+		margin: 0 auto;
+	}
+
+	.col-mobile {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+	}
+
+	.scoreboard {
+		display: none;
+	}
+
+	button {
+		font-family: 'Press Start 2P', cursive;
+		background-color: white;
+		font-size: 15px;
+		color: black;
+		padding: 5px 20px;
+		margin: 5px;
+		cursor: pointer;
+		border-radius: 5px;
+		
+	
+	}
+
+	.move-button {
+		padding: 20px;
+	}
+
+	p {
+		color: white;
+	}
+}

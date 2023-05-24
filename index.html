@@ -15,28 +15,63 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
-    <title>Document</title>
+    <title>Snake Game</title>
 </head>
 <body>
     <div id="title"><h1>Snake Game</h1></div>
     <div id="buttons">
     <button id="play-btn">Play</button>
-    <button id="reset-btn">Reset</button>
+ 
     </div>
    
-    <div class="scoreboard">
-        <div id="score"></div>
-        
-    </div>
+
     <div class="checkered-box">
-       
+
+
+       <div id="row1">
         <div id="grid-container">
 
           </div>
-          <div id="highscore">Highscore is: </div>
+          
+          <div class="scoreboard">
+            <div class="score"><p>Score: </p></div>
+            <div class="highscore"><p>Highscore: </p></div>
+        </div>
+        </div>
+        <div class="col-mobile">
+            <div class="scoreboard-mobile">
+                <div class="score"><p>Score: </p></div>
+                <div class="highscore"><p>Highscore: </p></div>
+            </div>
+        <div class="movekeys">
+        
+            <div id='keys1'><button class="move-button" id="up">up</button> </div>
+            <div id='keys2'>
+                <button class="move-button" id="left">left</button> 
+                <button class="move-button" id="down">down</button>
+                <button class="move-button" id="right">right</button>
+            </div>
+
+
+
+        </div>
+
+
+
+    </div>
+       
+
+
 
 </div>
-        <!-- <div id="apple"><img id="apple" src='images/apple.png'></div> -->
+<div class="popup" id="popup">
+<div class="game-over">
+    <h2>GAME OVER</h2>
+    <button id="reset-btn">Play Again?</button>
+</div>
+</div>
+
+
 
 
 
