@@ -1,8 +1,9 @@
-# Snake Game - Project 1
+# Snake Game
 [![forthebadge](https://forthebadge.com/images/badges/mom-made-pizza-rolls.svg)](https://forthebadge.com)
 
 Snake Game is a game I developed using HTML, CSS and jQuery. This is a recreation of the arcade game developed by Gremlin that brings back that nostalgic, retro feel of that time period. The game is also responsive and can be played on mobile devices. I started by setting up the game board and creating the snake's movement using event handlers. I also implemented the scoring system and added sound effects to enhance the player's experience.
 
+To play the game, here's a deployed version of it: [Snake Game](https://snakesss.surge.sh/)
 
 ## Table of Contents
 
